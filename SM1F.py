@@ -130,7 +130,7 @@ def download(symbols,mart,dart,yart,frequ,mend,dend,yend,delay):
     return
 
      
-def analysis(symbols,mart,dart,yart,frequ,mend,dend,yend,delay): # is the driving function, performs all the other functions
+def analysis(symbols,mart,dart,yart,frequ,mend,dend,yend,delay,min_diff,min_corr): # is the driving function, performs all the other functions
     global stocks
     values = {}
     download(symbols,mart,dart,yart,frequ,mend,dend,yend,delay) #downloads files with for loop
@@ -152,8 +152,8 @@ def analysis(symbols,mart,dart,yart,frequ,mend,dend,yend,delay): # is the drivin
             #print(stocks)
             with_in = find_correlation_value((stocks[stock1_name])[:], (stocks[stock2_name])[:],delay)
             with_out = find_correlation_value((stocks[stock1_name])[:],(stocks[stock2_name])[:],0)
-            if (abs(with_in)-abs(with_out)) > .1:
-                if abs(with_in) > .8:
+            if (abs(with_in)-abs(with_out)) > min_diff:
+                if abs(with_in) > min_corr:
                     values[stock1_name, stock2_name, delay] = with_in
                     values[stock1_name, stock2_name, 0] = with_out
  #                   values[stock1_name, stock2_name, delay] = find_correlation_value(stocks[stock1_name], stocks[stock2_name],delay)
@@ -181,7 +181,7 @@ def stats(values): # sorts values within the list given(Stocks and their correla
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Program:
-#(symbol,mend,dend,yend,freq,mart,dart,yart) #0 index
-time.sleep(3600)
-analysis(getlist('Nasdaq.csv'),'0','1','2016','d','8','24','2016',1)
+#(symbol,mend,dend,yend,freq,mart,dart,yart,delay,min_diff,min_corr) #0 index for months only
+#time.sleep()
+analysis(getlist('Nasdaq.csv'),'0','1','2016','d','8','24','2016',1,.1,.8)
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
